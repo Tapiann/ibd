@@ -12,7 +12,7 @@ class Db
      * Dane dostępowe do bazy.
      */
     private string $dbLogin = 'root';
-    private string $dbPassword = '';
+    private string $dbPassword = 'admin';
     private string $dbHost = 'localhost';
     private string $dbName = 'ibd';
 
@@ -40,7 +40,7 @@ class Db
                 $stmt->bindParam($k, $v);
         }
 
-        return $stmt->execute() ? $stmt->fetchAll(\PDO::FETCH_ASSOC) : null;
+        return $stmt->execute() ? $stmt->fetchAll() : null;
     }
 
     /**
@@ -55,27 +55,6 @@ class Db
         $sql = "SELECT * FROM $table WHERE id = :id";
         $stmt = $this->pdo->prepare($sql);
 
-        return $stmt->execute([':id' => $id]) ? $stmt->fetch(\PDO::FETCH_ASSOC) : null;
-    }
-
-    /**
-     * Liczy rekordy zwrócone przez zapytanie.
-     *
-     * @param string $sql
-     * @param array  $params
-     * @return int
-     */
-    public function policzRekordy(string $sql, array $params = []): int
-    {
-        $stmt = $this->pdo->prepare($sql);
-
-        if (!empty($params) && is_array($params)) {
-            foreach($params as $k => $v) {
-                $stmt->bindParam($k, $v);
-            }
-        }
-        $stmt->execute();
-
-        return $stmt->rowCount();
+        return $stmt->execute([':id' => $id]) ? $stmt->fetch() : null;
     }
 }
