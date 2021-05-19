@@ -1,7 +1,8 @@
 {
   "require": {
     "php": "^7.4",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "vlucas/valitron": "^1.4"
   },
   "autoload": {
     "psr-4": {

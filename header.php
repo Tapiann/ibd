@@ -4,6 +4,10 @@ if (!isset($_SESSION)) { session_start(); }
 ini_set('display_errors', 1);
 error_reporting(E_ALL | E_STRICT);
 
+if(session_status() != PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 define('ROK_AKADEMICKI', (date('Y') - 1) . '/' . date('Y'));
 
 require_once 'vendor/autoload.php';
@@ -52,4 +56,4 @@ $koszykHtml = "<span class='badge badge-dark' id='wKoszyku'>$liczbaKsiazekWKoszy
 	
     <div class="container">
         <div class="row">
-            <div class="col-md-10"> 
+            <div class="col-md-9">
