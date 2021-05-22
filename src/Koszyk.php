@@ -19,17 +19,27 @@ class Koszyk
 	 * Pobiera dane książek w koszyku.
 	 *
 	 * @return array
+     *
+     *
 	 */
+
 	public function pobierzWszystkie(): array
     {
 		$sql = "
 			SELECT ks.*, ko.liczba_sztuk, ko.id AS id_koszyka
 			FROM ksiazki ks JOIN koszyk ko ON ks.id = ko.id_ksiazki
-			WHERE ko.id_sesji = '" . session_id() . "'
+			WHERE ko.id_sesji = '" . session_id() . "' 
 			ORDER BY ko.data_dodania DESC";
 
 		return $this->db->pobierzWszystko($sql);
 	}
+
+    public function pobierzJedna(int $idKsiazki, string $idSesji): array
+    {
+        $sql = "SELECT * FROM koszyk WHERE id_sesji = '$idSesji' AND id_ksiazki = '$idKsiazki'";
+
+        return $this->db->pobierzWszystko($sql);
+    }
 
 	/**
 	 * Dodaje książkę do koszyka.

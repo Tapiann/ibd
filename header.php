@@ -1,4 +1,6 @@
 <?php
+if (!isset($_SESSION)) { session_start(); }
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL | E_STRICT);
 
@@ -7,8 +9,11 @@ define('ROK_AKADEMICKI', (date('Y') - 1) . '/' . date('Y'));
 require_once 'vendor/autoload.php';
 
 use Ibd\Menu;
+use Ibd\Koszyk;
 
-$liczbaKsiazekWKoszyku = 0;
+$koszyk = new Koszyk();
+$listaKsiazek = $koszyk->pobierzWszystkie();
+$liczbaKsiazekWKoszyku = count($listaKsiazek);
 $koszykHtml = "<span class='badge badge-dark' id='wKoszyku'>$liczbaKsiazekWKoszyku</span>";
 ?>
 
