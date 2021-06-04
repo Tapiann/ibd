@@ -5,13 +5,27 @@ session_start();
 use Ibd\Uzytkownicy;
 use Valitron\Validator;
 
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
+
+
 $uzytkownicy = new Uzytkownicy();
 $v = new Validator($_POST);
+$istniejeUzytkownik = false;
+$emailNiepoprawny = false;
 
 if (isset($_POST['zapisz'])) {
     $v->rule('required', ['imie', 'nazwisko', 'adres', 'email', 'login', 'haslo']);
 
-    if ($v->validate()) {
+    $email = test_input($_POST["email"]);
+    $emailNiepoprawny = !filter_var($email, FILTER_VALIDATE_EMAIL);
+
+    $istniejeUzytkownik = $uzytkownicy->sprawdzCzyIstnieje($_POST['login'],$_POST['email']);
+    if ($v->validate() && !$istniejeUzytkownik && !$emailNiepoprawny) {
         // brak błędów, można dodać użytkownika
         $uzytkownicy->dodaj($_POST);
         header("Location: index.php?msg=1");
@@ -32,6 +46,18 @@ include 'header.php';
             <li><?=implode('<br>', $err) ?></li>
         <?php endforeach; ?>
         </ul>
+    </div>
+<?php endif; ?>
+
+<?php if ($istniejeUzytkownik): ?>
+    <div class="alert alert-danger">
+        <strong>Email lub login już istnieje</strong>
+    </div>
+<?php endif; ?>
+
+<?php if ($emailNiepoprawny): ?>
+    <div class="alert alert-danger">
+        <strong>Email jest niepoprawny</strong>
     </div>
 <?php endif; ?>
 

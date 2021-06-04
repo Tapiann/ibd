@@ -49,6 +49,7 @@ $koszykHtml = "<span class='badge badge-dark' id='wKoszyku'>$liczbaKsiazekWKoszy
 					<?= Menu::generujOpcje('index.php', 'Strona główna') ?>
                     <?= Menu::generujOpcje('ksiazki.lista.php', 'Książki') ?>
                     <?= Menu::generujOpcje('koszyk.lista.php', "Koszyk $koszykHtml") ?>
+                    <?= Menu::generujOpcje('zamowienie.lista.php', "Moje zamówienia") ?>
                 </ul>
             </div>
         </nav>

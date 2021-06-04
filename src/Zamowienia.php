@@ -48,4 +48,15 @@ class Zamowienia
         }
     }
 
+    public function pobierzWszystkie(string $idUzytkownika): array
+    {
+        $sql = "
+			SELECT * FROM zamowienia z
+            JOIN zamowienia_szczegoly AS zs ON z.id = zs.id_zamowienia
+            JOIN ksiazki AS k ON zs.id_ksiazki = k.id
+            WHERE id_uzytkownika = '$idUzytkownika'";
+
+        return $this->db->pobierzWszystko($sql);
+    }
+
 }
